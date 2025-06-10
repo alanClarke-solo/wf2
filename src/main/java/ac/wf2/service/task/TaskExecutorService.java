@@ -2,9 +2,9 @@ package ac.wf2.service.task;
 
 import ac.wf2.domain.dto.TaskConfigDto;
 import ac.wf2.domain.model.Task;
-import ac.wf2.service.task.executor.RestTaskExecutor;
-import ac.wf2.service.task.executor.ShellTaskExecutor;
-import ac.wf2.service.task.executor.TaskExecutor;
+import ac.wf2.service.task.RestTaskExecutor;
+import ac.wf2.service.task.ShellTaskExecutor;
+import ac.wf2.service.task.TaskExecutor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
