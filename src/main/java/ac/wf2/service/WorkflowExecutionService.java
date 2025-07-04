@@ -1,11 +1,10 @@
-package ac.wf2.service.execution;
+package ac.wf2.service;
 
 import ac.wf2.domain.dto.TaskConfigDto;
 import ac.wf2.domain.dto.WorkflowConfigDto;
 import ac.wf2.domain.enums.TaskStatus;
 import ac.wf2.domain.enums.WorkflowStatus;
 import ac.wf2.domain.model.Task;
-import ac.wf2.domain.model.Workflow;
 import ac.wf2.repository.TaskRepository;
 import ac.wf2.repository.WorkflowRepository;
 import ac.wf2.service.dag.WorkflowDAGService;
@@ -18,7 +17,7 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -131,9 +130,9 @@ public class WorkflowExecutionService {
         task.setWorkflowId(workflowId);
         task.setExternalTaskId(taskConfig.getTaskId());
         task.setStatusId(TaskStatus.STARTING.getId());
-        task.setStartTime(LocalDateTime.now());
+        task.setStartTime(OffsetDateTime.now());
         task.setUpdatedBy("SYSTEM");
-        task.setUpdatedAt(LocalDateTime.now());
+        task.setUpdatedAt(OffsetDateTime.now());
         
         return taskRepository.save(task);
     }
@@ -141,9 +140,9 @@ public class WorkflowExecutionService {
     private void updateWorkflowStatus(Long workflowId, WorkflowStatus status) {
         workflowRepository.findById(workflowId).ifPresent(workflow -> {
             workflow.setStatusId(status.getId());
-            workflow.setUpdatedAt(LocalDateTime.now());
+            workflow.setUpdatedAt(OffsetDateTime.now());
             if (status == WorkflowStatus.SUCCESS || status == WorkflowStatus.FAILURE) {
-                workflow.setEndTime(LocalDateTime.now());
+                workflow.setEndTime(OffsetDateTime.now());
             }
             workflowRepository.save(workflow);
             
@@ -155,9 +154,9 @@ public class WorkflowExecutionService {
     private void updateTaskStatus(Long taskId, TaskStatus status) {
         taskRepository.findById(taskId).ifPresent(task -> {
             task.setStatusId(status.getId());
-            task.setUpdatedAt(LocalDateTime.now());
+            task.setUpdatedAt(OffsetDateTime.now());
             if (status == TaskStatus.SUCCESS || status == TaskStatus.FAILURE) {
-                task.setEndTime(LocalDateTime.now());
+                task.setEndTime(OffsetDateTime.now());
             }
             taskRepository.save(task);
         });

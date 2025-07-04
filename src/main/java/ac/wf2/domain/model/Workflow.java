@@ -1,11 +1,10 @@
 package ac.wf2.domain.model;
 
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Data
 @Table("workflow")
@@ -14,8 +13,8 @@ public class Workflow {
     private Long workflowId;
     private String externalWorkflowId;
     private Long statusId;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
+    private OffsetDateTime startTime;
+    private OffsetDateTime endTime;
     private String updatedBy;
-    private LocalDateTime updatedAt;
+    private OffsetDateTime updatedAt;
 }

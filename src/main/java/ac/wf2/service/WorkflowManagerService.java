@@ -7,7 +7,6 @@ import ac.wf2.repository.WorkflowRepository;
 import ac.wf2.service.cache.WorkflowCacheService;
 import ac.wf2.service.config.WorkflowConfigurationService;
 import ac.wf2.service.event.WorkflowEventService;
-import ac.wf2.service.execution.WorkflowExecutionService;
 import ac.wf2.service.notification.NotificationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +14,7 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -45,9 +44,9 @@ public class WorkflowManagerService {
         Workflow workflow = new Workflow();
         workflow.setExternalWorkflowId(UUID.randomUUID().toString());
         workflow.setStatusId(WorkflowStatus.STARTING.getId());
-        workflow.setStartTime(LocalDateTime.now());
+        workflow.setStartTime(OffsetDateTime.now());
         workflow.setUpdatedBy("SYSTEM");
-        workflow.setUpdatedAt(LocalDateTime.now());
+        workflow.setUpdatedAt(OffsetDateTime.now());
         
         workflow = workflowRepository.save(workflow);
         
@@ -76,8 +75,8 @@ public class WorkflowManagerService {
         executionService.stopWorkflow(workflowId, immediate);
         
         workflow.setStatusId(WorkflowStatus.INTERRUPTED.getId());
-        workflow.setEndTime(LocalDateTime.now());
-        workflow.setUpdatedAt(LocalDateTime.now());
+        workflow.setEndTime(OffsetDateTime.now());
+        workflow.setUpdatedAt(OffsetDateTime.now());
         workflowRepository.save(workflow);
         
         // Update cache

@@ -4,7 +4,7 @@ import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 
 @Data
 @Table("task")
@@ -15,8 +15,8 @@ public class Task {
     private String externalTaskId;
     private Long taskDefId;
     private Long statusId;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
+    private OffsetDateTime startTime;
+    private OffsetDateTime endTime;
     private String updatedBy;
-    private LocalDateTime updatedAt;
+    private OffsetDateTime updatedAt;
 }
