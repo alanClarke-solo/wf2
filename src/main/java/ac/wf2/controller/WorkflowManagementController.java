@@ -10,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import jakarta.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -35,7 +34,7 @@ public class WorkflowManagementController {
     
     @PutMapping("/{workflowId}")
     public ResponseEntity<Workflow> updateWorkflow(@PathVariable String workflowId,
-                                                  @Valid @RequestBody WorkflowUpdateRequest request) {
+                                                  @RequestBody WorkflowUpdateRequest request) {
         // Implementation for updating workflow parameters
         return ResponseEntity.ok().build();
     }
@@ -55,14 +54,14 @@ public class WorkflowManagementController {
     }
     
     @PostMapping("/start")
-    public ResponseEntity<Workflow> startWorkflow(@Valid @RequestBody WorkflowStartRequest request) {
+    public ResponseEntity<Workflow> startWorkflow(@RequestBody WorkflowStartRequest request) {
         Workflow workflow = workflowManagerService.startWorkflow(request.getWorkflowConfigId(), request.getRegion());
         return ResponseEntity.ok(workflow);
     }
     
     @PostMapping("/{workflowId}/stop")
     public ResponseEntity<Void> stopWorkflow(@PathVariable Long workflowId,
-                                           @Valid @RequestBody WorkflowStopRequest request) {
+                                           @RequestBody WorkflowStopRequest request) {
         workflowManagerService.stopWorkflow(workflowId, request.isImmediate());
         return ResponseEntity.ok().build();
     }
