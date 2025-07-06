@@ -84,7 +84,7 @@ public class AggregateFieldChangeMonitoringAspect {
         log.debug("Starting aggregate change monitoring for: {} in method: {}",
                 aggregateId, joinPoint.getSignature().getName());
 
-        // Capture aggregate snapshot before method execution
+        // Capture an aggregate snapshot before method execution
         try {
             aggregateChangeDetectorService.captureAggregateSnapshot(aggregate);
         } catch (Exception e) {

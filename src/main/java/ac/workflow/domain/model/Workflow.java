@@ -5,10 +5,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.relational.core.mapping.Column;
 import org.springframework.data.relational.core.mapping.MappedCollection;
 import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.*;
 
 /**
@@ -54,30 +56,27 @@ public class Workflow {
      */
     private String description;
 
-    /**
-     * Workflow execution start time.
-     */
+    @Column("created_at")
+    private OffsetDateTime createdAt;
+
+    @Column("updated_at")
+    private OffsetDateTime updatedAt;
+
+    @Column("start_time")
     private OffsetDateTime startTime;
 
-    /**
-     * Workflow execution end time.
-     */
+    @Column("end_time")
     private OffsetDateTime endTime;
 
-    /**
-     * Timestamp when the workflow was created.
-     */
-    private OffsetDateTime createdAt;
+    // Helper methods for UTC handling
+    public void setCreatedAtNow() {
+        this.createdAt = OffsetDateTime.now(ZoneOffset.UTC);
+    }
 
     /**
      * User who last updated the workflow.
      */
     private String updatedBy;
-
-    /**
-     * Timestamp when the workflow was last updated.
-     */
-    private OffsetDateTime updatedAt;
 
     /**
      * Tasks associated with this workflow.

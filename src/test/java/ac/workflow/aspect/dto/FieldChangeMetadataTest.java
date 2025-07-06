@@ -9,7 +9,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 class FieldChangeMetadataTest {
 
@@ -207,8 +208,8 @@ class FieldChangeMetadataTest {
     void merge_ShouldCombineMetadata() {
         // Given
         FieldChangeMetadata other = FieldChangeMetadata.builder()
-                .entityId("other-entity")
-                .entityType("OtherEntity")
+                .entityId("test-entity-1")
+                .entityType("TestEntity")
                 .build();
         other.addModifiedField("otherField");
         other.addOldValue("otherField", "otherOldValue");

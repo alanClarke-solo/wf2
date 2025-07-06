@@ -17,7 +17,9 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.Duration;
 import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
@@ -107,7 +109,7 @@ public class WorkflowExecutionService {
     
     private boolean executeTask(Long workflowId, TaskConfigDto taskConfig) {
         try {
-            // Create task record
+            // Create a task record
             Task task = createTaskRecord(workflowId, taskConfig);
             
             // Execute task
@@ -124,6 +126,20 @@ public class WorkflowExecutionService {
             return false;
         }
     }
+
+    // Update scheduling and execution timestamps
+    public void scheduleTask(Task task, Duration delay) {
+        task.setScheduledTime(OffsetDateTime.now(ZoneOffset.UTC).plus(delay));
+        task.setUpdatedAt(OffsetDateTime.now(ZoneOffset.UTC));
+        taskRepository.save(task);
+    }
+
+    public void executeTask(Task task) {
+        task.setExecutedTime(OffsetDateTime.now(ZoneOffset.UTC));
+        task.setUpdatedAt(OffsetDateTime.now(ZoneOffset.UTC));
+        taskRepository.save(task);
+    }
+
     
     private Task createTaskRecord(Long workflowId, TaskConfigDto taskConfig) {
         Task task = new Task();

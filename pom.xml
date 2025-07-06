@@ -65,21 +65,7 @@
             <artifactId>spring-boot-starter-aop</artifactId>
         </dependency>
 
-        <!-- AspectJ Runtime - For advanced AOP features -->
-        <dependency>
-            <groupId>org.aspectj</groupId>
-            <artifactId>aspectjrt</artifactId>
-            <version>1.9.24</version>
-        </dependency>
-
-        <!-- AspectJ Weaver - For load-time weaving if needed -->
-        <dependency>
-            <groupId>org.aspectj</groupId>
-            <artifactId>aspectjweaver</artifactId>
-            <version>1.9.24</version>
-        </dependency>
-
-        <!-- Database Driver (example: PostgreSQL) -->
+        <!-- Database Driver (example: PostgresSQL) -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
@@ -217,39 +203,6 @@
                     <source>17</source>
                     <target>17</target>
                 </configuration>
-            </plugin>
-
-            <!-- AspectJ Maven Plugin - For compile-time weaving if needed -->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>aspectj-maven-plugin</artifactId>
-                <version>1.15.0</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.aspectj</groupId>
-                        <artifactId>aspectjtools</artifactId>
-                        <version>1.9.24</version> <!-- or a more recent version supporting Java 17 -->
-                    </dependency>
-                </dependencies>
-                <configuration>
-                    <complianceLevel>17</complianceLevel>
-                    <source>17</source>
-                    <target>17</target>
-                    <showWeaveInfo>true</showWeaveInfo>
-                    <verbose>true</verbose>
-                    <Xlint>ignore</Xlint>
-                    <encoding>UTF-8</encoding>
-                </configuration>
-                <executions>
-                    <execution>
-                        <goals>
-                            <!-- Use this goal to weave all your main classes -->
-                            <goal>compile</goal>
-                            <!-- Use this goal to weave all your test classes -->
-                            <goal>test-compile</goal>
-                        </goals>
-                    </execution>
-                </executions>
             </plugin>
         </plugins>
     </build>

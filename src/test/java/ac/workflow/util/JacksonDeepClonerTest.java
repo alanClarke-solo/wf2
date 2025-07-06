@@ -1,5 +1,7 @@
+
 package ac.workflow.util;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,7 +13,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 @ExtendWith(MockitoExtension.class)
 class JacksonDeepClonerTest {
@@ -151,12 +154,13 @@ class JacksonDeepClonerTest {
         assertThat(deepCloner.getCacheSize()).isZero();
     }
 
-    // Test helper classes
+    // Test helper classes - Made static and public for proper Jackson serialization
     public static class TestObject {
         private String name;
         private int value;
         private OffsetDateTime timestamp;
 
+        // Default constructor required for Jackson
         public TestObject() {}
 
         public TestObject(String name, int value, OffsetDateTime timestamp) {
@@ -178,6 +182,7 @@ class JacksonDeepClonerTest {
         private List<String> list;
         private Map<String, String> map;
 
+        // Default constructor required for Jackson
         public ComplexTestObject() {}
 
         public ComplexTestObject(List<String> list, Map<String, String> map) {
@@ -192,7 +197,21 @@ class JacksonDeepClonerTest {
     }
 
     public static class NonSerializableObject {
-        private Thread thread = new Thread(); // Non-serializable field
+        // Use a field that Jackson definitely cannot serialize
+        private final Object nonSerializableField = new Object() {
+            private Thread thread = new Thread();
+
+            // Force Jackson to access this field during serialization
+            @JsonProperty
+            public Thread getThread() {
+                return thread;
+            }
+        };
+
+        @JsonProperty
+        public Object getNonSerializableField() {
+            return nonSerializableField;
+        }
     }
 
     private ComplexTestObject createComplexTestObject() {

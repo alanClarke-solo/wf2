@@ -116,7 +116,7 @@ public class JacksonDeepCloner {
     /**
      * Checks if an object can be successfully cloned.
      *
-     * This method performs a test serialization to determine if the object
+     * This method performs test serialization to determine if the object
      * can be cloned without throwing an exception. Useful for validation
      * before attempting actual cloning operations.
      *
@@ -234,8 +234,13 @@ public class JacksonDeepCloner {
      * @return true if the class appears to be serializable
      */
     private boolean checkSerializability(Class<?> clazz) {
+        // Null check
+        if (clazz == null) {
+            return false;
+        }
+
         // Primitive types and their wrappers are always serializable
-        if (clazz.isPrimitive()) {
+        if (clazz.isPrimitive() || isWrapperType(clazz)) {
             return true;
         }
 
@@ -251,7 +256,8 @@ public class JacksonDeepCloner {
                 className.startsWith("java.util") ||
                 className.startsWith("java.time") ||
                 className.startsWith("java.math") ||
-                className.startsWith("java.net")) {
+                className.startsWith("java.net") ||
+                className.startsWith("java.io")) {
             return true;
         }
 
@@ -260,20 +266,39 @@ public class JacksonDeepCloner {
             return isLikelySerializable(clazz.getComponentType());
         }
 
-        // Classes with Jackson annotations are likely serializable
-        if (hasJacksonAnnotations(clazz)) {
-            return true;
-        }
+        try {
+            // Classes with Jackson annotations are likely serializable
+            if (hasJacksonAnnotations(clazz)) {
+                return true;
+            }
 
-        // Classes with default constructors are generally serializable
-        if (hasDefaultConstructor(clazz)) {
-            return true;
+            // Classes with default constructors are generally serializable
+            if (hasDefaultConstructor(clazz)) {
+                return true;
+            }
+        } catch (Exception e) {
+            // If we can't determine annotations or constructors, assume not serializable
+            return false;
         }
 
         // If none of the above, it might still be serializable but less likely
         return false;
     }
 
+    /**
+     * Checks if a class is a wrapper type for primitives.
+     */
+    private boolean isWrapperType(Class<?> clazz) {
+        return clazz == Boolean.class ||
+                clazz == Byte.class ||
+                clazz == Character.class ||
+                clazz == Double.class ||
+                clazz == Float.class ||
+                clazz == Integer.class ||
+                clazz == Long.class ||
+                clazz == Short.class ||
+                clazz == String.class;
+    }
     /**
      * Checks if a class has Jackson-related annotations.
      *

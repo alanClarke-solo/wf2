@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -30,7 +31,15 @@ public class WorkflowManagerService {
     private final WorkflowEventService eventService;
     private final NotificationService notificationService;
     private final WorkflowCacheService cacheService;
-    
+
+    public Workflow createWorkflow(String name) {
+        Workflow workflow = new Workflow();
+        workflow.setName(name);
+        workflow.setCreatedAt(OffsetDateTime.now(ZoneOffset.UTC));
+        workflow.setUpdatedAt(OffsetDateTime.now(ZoneOffset.UTC));
+        return workflowRepository.save(workflow);
+    }
+
     @Transactional
     public Workflow startWorkflow(String workflowConfigId, String region) {
         log.info("Starting workflow: {} for region: {}", workflowConfigId, region);
