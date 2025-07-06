@@ -316,16 +316,13 @@ public class FieldChangeDetectorService {
      */
     private boolean isComplexType(Class<?> clazz) {
         // Consider primitive types, wrappers, and common Java types as simple
-        if (clazz.isPrimitive() || 
-            clazz.getName().startsWith("java.lang") ||
-            clazz.getName().startsWith("java.util") ||
-            clazz.getName().startsWith("java.time") ||
-            clazz.isEnum()) {
-            return false;
-        }
+        return !clazz.isPrimitive() &&
+                !clazz.getName().startsWith("java.lang") &&
+                !clazz.getName().startsWith("java.util") &&
+                !clazz.getName().startsWith("java.time") &&
+                !clazz.isEnum();
         
         // Everything else is considered complex
-        return true;
     }
     
     /**
@@ -395,4 +392,16 @@ public class FieldChangeDetectorService {
                 .isAggregateRoot(false)
                 .build();
     }
+
+    // Add enhanced methods to existing service if needed
+    public FieldChangeMetadata detectChangesWithValidation(Object original, Object current, String[] excludeFields) {
+        // Enhanced logic here
+        return null;
+    }
+
+    public boolean hasSignificantChanges(Object original, Object current, String[] significantFields) {
+        // Logic to detect only significant changes
+        return false;
+    }
+
 }
