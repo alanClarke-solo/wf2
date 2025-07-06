@@ -69,12 +69,14 @@
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjrt</artifactId>
+            <version>1.9.24</version>
         </dependency>
 
         <!-- AspectJ Weaver - For load-time weaving if needed -->
         <dependency>
             <groupId>org.aspectj</groupId>
             <artifactId>aspectjweaver</artifactId>
+            <version>1.9.24</version>
         </dependency>
 
         <!-- Database Driver (example: PostgreSQL) -->
@@ -124,6 +126,7 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
+            <version>1.18.38</version>
             <optional>true</optional>
         </dependency>
 
@@ -194,6 +197,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>3.5.3</version>
                 <configuration>
                     <excludes>
                         <exclude>
@@ -219,7 +223,14 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>aspectj-maven-plugin</artifactId>
-                <version>1.14.0</version>
+                <version>1.15.0</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>org.aspectj</groupId>
+                        <artifactId>aspectjtools</artifactId>
+                        <version>1.9.24</version> <!-- or a more recent version supporting Java 17 -->
+                    </dependency>
+                </dependencies>
                 <configuration>
                     <complianceLevel>17</complianceLevel>
                     <source>17</source>
