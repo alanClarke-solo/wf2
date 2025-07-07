@@ -2,12 +2,13 @@ package ac.workflow.service.task;
 
 import ac.workflow.domain.dto.TaskConfigDto;
 import ac.workflow.domain.model.Task;
-import com.jcraft.jsch.*;
+import com.jcraft.jsch.ChannelExec;
+import com.jcraft.jsch.JSch;
+import com.jcraft.jsch.Session;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.concurrent.CompletableFuture;
 
 @Component

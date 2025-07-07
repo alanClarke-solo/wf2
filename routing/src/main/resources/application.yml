@@ -1,0 +1,20 @@
+routes:
+  - routeId: "abinitio-prod"
+    endpointType: "SOAP"
+    endpointUrl: "https://abinitio.company.com/controlcenter/services"
+    userId: "workflow_user"
+    password: "encrypted_password"
+    statusThresholdMinutes: 5
+    properties:
+      namespace: "production"
+      timeout: 30000
+
+  - routeId: "conductor-dev"
+    endpointType: "REST"
+    endpointUrl: "https://insight-conductor.citigroup.net/api"
+    userId: "dev_user"
+    password: "dev_password"
+    statusThresholdMinutes: 2
+    properties:
+      version: "v1"
+      retryCount: 3

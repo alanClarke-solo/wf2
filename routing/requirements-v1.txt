@@ -1,0 +1,34 @@
+Routing system webservice able to
+
+ - process workflow execution requests using a map of parameters received by router's REST controller.
+ - get the status of the specific submission on demand
+ - get the status of multiple submissions based on time period and common parameters.
+
+Each workflow consists of one or more different steps which may be executed consequently or in parallel, but this is a responsibility of the external execution endpoint.
+Assume each workflow execution is a long-running process.
+
+REST controller is using a WfRouter class to decide the destination external endpoint where the workflow will be executed.
+External endpoints can be of a different nature, current implementation has to use
+	1. AbInitio ControlCenter via SOAP API
+	2. Conductor OSS via intermediate REST webservice
+
+WfRouter makes a decision based on the unique routeId of a String type received as a separate parameter in a REST request.
+Possible routes have a shared set of properties (like userId, password) and may have unique properties specific for each route (e.g., transport details).
+WfRouter uses router-service.yml configuration file to load all configured routes with each route having all necessary config properties to:
+		use a preloaded configuration data to process a map with submission parameters;
+		locate, connect, authenticate with external endpoint taking into account its nature (REST, SOAP, messaging, sockets);
+		submit workflow execution request and get the result of submission (i.e. workflow execution starting, queued, failed);
+		get workflow execution status:
+			- on demand from the request coming from router controller;
+			- using background workflow execution status polling service;
+			- from a callback executed by the external endpoint where the actual workflow is running;
+		while performing all the request processing tasks use the database to store and update any workflow state change;
+		intermediate results should be cached using Redis;
+		upon receiving workflow execution status from the endpoint WfRouter should create a workflow execution response containing details about workflow as a whole and each executed and / or running tasks;
+		this responses should be cached using Redis and stored in the database;
+		the cache and the database should be updated if any parameter of the workflow has changed as reported by an external endpoint;
+		status responses should be returned to the controller for further delivery to the interested party (usually UI)
+			for completed workflows
+				from the cache if present or from the database if not cached yet;
+			for pending workflows there should be a configurable threshold started from the last update time within which a cached/db-stored result is returned and only beyond the threshold the request should be routed to the external endpoint
+
