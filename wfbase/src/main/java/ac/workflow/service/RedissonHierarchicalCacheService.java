@@ -49,12 +49,10 @@ public class RedissonHierarchicalCacheService<T> {
         
         try {
             // Store the actual data in a Redisson Map with TTL
-/*
             RMap<String, T> dataMap = redissonClient.getMap(DATA_CACHE_NAME);
-            dataMap.put(dataId, data, ttl.toMillis(), TimeUnit.MILLISECONDS);
-*/
-            RMap<String, T> dataMap = (RedissonMapCache<String, T>) cacheManager.getCache(DATA_CACHE_NAME).getNativeCache();
             dataMap.put(dataId, data);
+//            RMap<String, T> dataMap = (RedissonMapCache<String, T>) cacheManager.getCache(DATA_CACHE_NAME).getNativeCache();
+//            dataMap.put(dataId, data);
 
 
             
