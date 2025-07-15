@@ -39,6 +39,8 @@ spring:
 logging:
   level:
     ac.workflow: DEBUG
+    ac.workflow.service: DEBUG
+    org.redisson: INFO
     org.springframework.jdbc: DEBUG
     org.springframework.transaction: DEBUG
     org.springframework.cache: DEBUG
@@ -51,3 +53,18 @@ test:
   data:
     reset-sequences: true
 
+workflow:
+  cache:
+    hierarchical-data-ttl: 3600
+    hierarchical-references-ttl: 1800
+
+# Redis configuration for performance tests
+redisson:
+  single-server-config:
+    address: "redis://localhost:6379"
+    database: 1
+    connection-pool-size: 50
+    connection-minimum-idle-size: 10
+    timeout: 3000
+    retry-attempts: 3
+    retry-interval: 1500
