@@ -4,7 +4,7 @@ import ac.workflow.domain.dto.WorkflowConfigDto;
 import ac.workflow.domain.enums.WorkflowStatus;
 import ac.workflow.domain.model.Workflow;
 import ac.workflow.repository.WorkflowRepository;
-import ac.workflow.service.cache.WorkflowCacheService;
+import ac.workflow.service.cache.WorkflowCacheService_1;
 import ac.workflow.service.config.WorkflowConfigurationService;
 import ac.workflow.service.event.WorkflowEventService;
 import ac.workflow.service.notification.NotificationService;
@@ -30,7 +30,7 @@ public class WorkflowManagerService {
     private final WorkflowExecutionService executionService;
     private final WorkflowEventService eventService;
     private final NotificationService notificationService;
-    private final WorkflowCacheService cacheService;
+    private final WorkflowCacheService_1 cacheService;
 
     public Workflow createWorkflow(String name) {
         Workflow workflow = new Workflow();
